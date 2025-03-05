@@ -5,17 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quote by Eko Wibowo</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
 </head>
+
 <body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-yellow-100 to-yellow-400">
     <div class="text-center">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4 animate-fade-in">
+        <h1 class="text-2xl font-bold text-gray-900 mb-4 animate-fade-in">
             ✨ Kata-Kata Bijak Untuk Harimu ✨
         </h1>
         <div class="bg-white text-gray-800 p-6 rounded-2xl shadow-2xl max-w-md mx-auto transform transition duration-500 hover:scale-105">
             <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Eko Wibowo" class="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-yellow-300">
-            <p class="text-xl font-semibold italic">"Luangkan waktu, jangan mencari waktu luang"</p>
-            <span class="text-gray-500 text-sm mt-2 block">- by Eko Wibowo</span>
+            <p id="quote" class="text-xl font-semibold italic"></p>
+            <span id="author" class="text-gray-500 text-sm mt-2 block"></span>
+        </div>
+        <div class="flex justify-center mt-4">
+            <button id="prevBtn" class="bg-yellow-500 text-white px-4 rounded-l-lg mr-1 hover:bg-yellow-600"><i class="fas fa-arrow-left"></i></button>
+            <button id="nextBtn" class="bg-yellow-500 text-white px-4 rounded-r-lg hover:bg-yellow-600"><i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
+
+    <script>
+        let quotes = [
+            {
+                quote: "Luangkan waktu, jangan mencari waktu luang",
+                author: "- by Eko Wibowo"
+            },
+            {
+                quote: "Berdiri di atas kaki sendiri",
+                author: "- by Bung Karno"
+            }
+        ]
+
+        console.log("semua quote", quotes);
+        console.log("pertama", quotes[0]);
+        console.log("kedua", quotes[1]);
+        console.log("author quote 1", quotes[0].author);
+
+        const quote = document.getElementById("quote");
+        const author = document.getElementById("author");
+
+        const prevButton = document.getElementById("prevBtn");
+        const nextButton = document.getElementById("nextBtn");
+
+        let currentQuoteIndex = 0;
+
+        function updateQuote(index) {
+            quote.innerText = quotes[index].quote;
+            author.innerText = quotes[index].author;
+        }
+
+        // code plumbing
+        //kurangi 1, tapi kalaua sudah mentok, kembali ke ujung kanan
+        prevButton.addEventListener("click", function() {
+            console.log("prev");
+            if (currentQuoteIndex === 0) { //0 dan "0" itu bisa dianggap sama. 0 adalah angka. "0"adalah string
+                currentQuoteIndex = quotes.length - 1; // ke quote yang paling ujung
+            } else {
+                currentQuoteIndex = currentQuoteIndex - 1;
+            }
+            updateQuote(currentQuoteIndex);
+        });
+
+        nextButton.addEventListener("click", function() {
+            console.log("next");
+            currentQuoteIndex = (currentQuoteIndex === quotes.length - 1) ? 0 : currentQuoteIndex + 1;
+            updateQuote(currentQuoteIndex);
+        });
+
+        updateQuote(currentQuoteIndex);
+    </script>
 </body>
-</html>
