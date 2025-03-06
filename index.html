@@ -21,6 +21,18 @@
         <div class="flex justify-center mt-4">
             <button id="prevBtn" class="bg-yellow-500 text-white px-4 rounded-l-lg mr-1 hover:bg-yellow-600"><i class="fas fa-arrow-left"></i></button>
             <button id="nextBtn" class="bg-yellow-500 text-white px-4 rounded-r-lg hover:bg-yellow-600"><i class="fas fa-arrow-right"></i></button>
+            <button id="addBtn" class="bg-green-500 text-white px-4 rounded-lg ml-1 hover:bg-green-600">Add</button>
+        </div>
+    </div>
+
+    <!-- Popup form for adding a new quote -->
+    <div id="addQuotePopup" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-lg font-bold mb-4">Add New Quote</h2>
+            <input type="text" id="newQuote" placeholder="Enter quote" class="border p-2 rounded w-full mb-2">
+            <input type="text" id="newAuthor" placeholder="Enter author" class="border p-2 rounded w-full mb-4">
+            <button id="saveQuoteBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            <button id="cancelBtn" class="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-600">Cancel</button>
         </div>
     </div>
 
@@ -47,6 +59,13 @@
         const prevButton = document.getElementById("prevBtn");
         const nextButton = document.getElementById("nextBtn");
 
+        const addButton = document.getElementById("addBtn");
+        const addQuotePopup = document.getElementById("addQuotePopup");
+        const saveQuoteButton = document.getElementById("saveQuoteBtn");
+        const cancelButton = document.getElementById("cancelBtn");
+        const newQuoteInput = document.getElementById("newQuote");
+        const newAuthorInput = document.getElementById("newAuthor");
+
         let currentQuoteIndex = 0;
 
         function updateQuote(index) {
@@ -71,6 +90,30 @@
             currentQuoteIndex = (currentQuoteIndex === quotes.length - 1) ? 0 : currentQuoteIndex + 1;
             updateQuote(currentQuoteIndex);
         });
+
+        addButton.addEventListener("click", function() {
+            addQuotePopup.classList.remove("hidden");
+        });
+
+        cancelButton.addEventListener("click", function() {
+            addQuotePopup.classList.add("hidden");
+        });
+
+        function handleSaveQuoteButton(){
+            const newQuote = newQuoteInput.value.trim();
+            const newAuthor = newAuthorInput.value.trim();
+            if (newQuote !== "" && newAuthor !== "") {
+                quotes.push({ quote: newQuote, author: `- by ${newAuthor}` });
+                newQuoteInput.value = "";
+                newAuthorInput.value = "";
+                addQuotePopup.classList.add("hidden");
+                updateQuote(quotes.length - 1);
+            } else {
+                alert("Please fill in both fields.");
+            }
+        }
+
+        saveQuoteButton.addEventListener("click", handleSaveQuoteButton);
 
         updateQuote(currentQuoteIndex);
     </script>
